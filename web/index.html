@@ -1,0 +1,24 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PCAP Network Map</title>
+    <!-- Load the d3-pcap library -->
+    <script src="https://unpkg.com/d3-pcap@0.4.0/dist/d3-pcap.min.js"></script>
+    <!-- Load a custom CSS file for styling the network map -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- Create a form for uploading PCAP files -->
+    <form id="pcap-form">
+      <label for="pcap-file">Select a PCAP file:</label>
+      <input type="file" id="pcap-file" accept=".pcap">
+      <button type="submit">Generate Network Map</button>
+    </form>
+    <!-- Create a container for the network map -->
+    <div id="network-map"></div>
+    <!-- Load a custom JavaScript file for handling form submissions and generating the network map -->
+    <script src="index.js"></script>
+  </body>
+</html>
